@@ -1,0 +1,302 @@
+.welcome-banner {
+
+    background:
+        linear-gradient(135deg, #2563eb, #06b6d4);
+
+    border-radius: 24px;
+
+    padding: 28px;
+
+    color: white;
+
+    box-shadow: 0 10px 30px rgba(37, 99, 235, 0.25);
+}
+
+.welcome-banner h2 {
+
+    margin: 0;
+
+    font-size: 30px;
+
+    font-weight: 700;
+}
+
+.welcome-banner p {
+
+    margin-top: 10px;
+
+    opacity: 0.95;
+
+    font-size: 15px;
+}
+
+.dashboard-page {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 24px;
+}
+
+.dashboard-header h1 {
+
+    margin: 0;
+
+    font-size: 34px;
+
+    font-weight: 700;
+
+    color: #0f172a;
+}
+
+.dashboard-header p {
+
+    margin-top: 8px;
+
+    color: #64748b;
+
+    font-size: 15px;
+}
+
+.summary-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.summary-card {
+
+    padding: 24px;
+
+    border-radius: 20px;
+
+    color: white;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+    transition: 0.2s ease;
+}
+
+.summary-card:hover {
+
+    transform: translateY(-6px);
+    box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.15);
+}
+
+.summary-card.total {
+
+    background: linear-gradient(135deg, #2563eb, #06b6d4);
+}
+
+.summary-card.checkedin {
+
+    background: linear-gradient(135deg, #0f766e, #14b8a6);
+}
+
+.summary-card.completed {
+
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+}
+
+.summary-card.booked {
+
+    background:
+        linear-gradient(135deg, #61278d, #dc97e1);
+}
+
+.card-title {
+
+    font-size: 14px;
+
+    opacity: 0.9;
+}
+
+.card-value {
+
+    margin-top: 12px;
+
+    font-size: 36px;
+
+    font-weight: 700;
+}
+
+.appointments-section {
+
+    background: white;
+
+    border-radius: 20px;
+
+    padding: 24px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.section-header h2 {
+
+    margin: 0 0 20px 0;
+
+    color: #0f172a;
+}
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+th {
+
+    text-align: left;
+
+    padding-bottom: 16px;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+td {
+
+    padding: 16px 0;
+
+    border-top: 1px solid #f1f5f9;
+}
+
+.status-chip {
+
+    padding: 6px 12px;
+
+    border-radius: 999px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+.status-chip.booked {
+
+    background: #dbeafe;
+
+    color: #1d4ed8;
+}
+
+.status-chip.checkedin {
+
+    background: #ccfbf1;
+
+    color: #0f766e;
+}
+
+.status-chip.completed {
+
+    background: #ede9fe;
+
+    color: #6d28d9;
+}
+
+.status-chip.cancelled {
+
+    background: #fee2e2;
+
+    color: #dc2626;
+}
+
+.filters-section {
+
+    display: flex;
+
+    gap: 16px;
+
+    align-items: center;
+}
+
+.actions {
+
+    display: flex;
+
+    gap: 10px;
+}
+
+.action-btn {
+
+    border-radius: 10px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+.action-btn.checkin {
+
+    background: #ccfbf1;
+
+    color: #0f766e;
+}
+
+.action-btn.cancel {
+
+    background: #fee2e2;
+
+    color: #dc2626;
+}
+
+.action-btn.visit {
+
+    background: #dbeafe;
+
+    color: #2563eb;
+}
+
+.action-btn.completed {
+
+    background: #ede9fe;
+
+    color: #6d28d9;
+}
+
+tbody tr:hover {
+
+    background: #f8fafc;
+}
+
+.card-top {
+
+    display: flex;
+
+    justify-content: flex-end;
+}
+
+.card-icon {
+
+    width: 52px;
+
+    height: 52px;
+
+    border-radius: 16px;
+
+    background: rgba(255, 255, 255, 0.18);
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    backdrop-filter: blur(8px);
+}
+
+.card-icon mat-icon {
+
+    font-size: 28px;
+
+    width: 28px;
+
+    height: 28px;
+
+    color: white;
+}

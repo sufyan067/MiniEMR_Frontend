@@ -1,0 +1,61 @@
+<h2 mat-dialog-title>
+    Book Appointment
+</h2>
+<mat-dialog-content>
+    <div class="patient-context">
+        Booking appointment for:
+        <strong>
+            {{ data.fullName }}
+        </strong>
+    </div>
+    <form [formGroup]="appointmentForm">
+        <div class="form-grid">
+            <mat-form-field appearance="outline">
+                <mat-label>Doctor</mat-label>
+                <mat-select formControlName="doctorId">
+                    @for(item of doctors();
+                    track item.userId) {
+                    <mat-option [value]="item.userId">
+                        {{ item.fullName }}
+                    </mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Date</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="appointmentDate">
+                <mat-datepicker-toggle matIconSuffix [for]="picker">
+                </mat-datepicker-toggle>
+                <mat-datepicker #picker />
+            </mat-form-field>
+            <div class="slot-section">
+                <h3>Appointment Time</h3>
+                <div class="slots-grid">
+                    @for(slot of timeSlots; track slot) {
+                    <button type="button" class="slot-btn" [class.active-slot]="selectedTimeSlot() === slot"
+                        (click)="selectTimeSlot(slot)">
+                        {{ slot }}
+                    </button>
+                    }
+                </div>
+            </div>
+        </div>
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Notes</mat-label>
+            <textarea matInput rows="4" formControlName="notes">
+      </textarea>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>
+        Cancel
+    </button>
+    <button mat-raised-button color="primary" [disabled]="isSaving()" (click)="save()">
+        @if(isSaving()) {
+        Saving...
+        } @else {
+        Book Appointment
+        }
+    </button>
+</mat-dialog-actions>

@@ -1,0 +1,70 @@
+<div class="patient-page">
+    <div class="page-header">
+        <div>
+            <h1>Patients</h1>
+            <p>
+                Manage and review patient records.
+            </p>
+        </div>
+        <button mat-raised-button color="primary">
+            <mat-icon>person_add</mat-icon>
+            Add Patient
+        </button>
+    </div>
+    <mat-card class="patient-card">
+        <div class="search-section">
+            <mat-form-field appearance="outline">
+                <mat-label>
+                    Search Patients
+                </mat-label>
+                <input matInput placeholder="Search by name, phone or CNIC"
+                    (input)="searchText.set($any($event.target).value)">
+            </mat-form-field>
+        </div>
+        <div class="patient-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Patient</th>
+                        <th>Age/Gender</th>
+                        <th>Phone</th>
+                        <th>CNIC</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(item of filteredPatients(); track item.patientId) {
+                    <tr>
+                        <td>
+                            <div class="patient-info">
+                                <div class="patient-avatar">
+                                    {{ item.fullName.charAt(0) }}
+                                </div>
+                                <div>
+                                    <div class="patient-name">
+                                        {{ item.fullName }}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            {{ item.age }}/{{ item.gender }}
+                        </td>
+                        <td>
+                            {{ item.phoneNumber }}
+                        </td>
+                        <td>
+                            {{ item.cnic }}
+                        </td>
+                        <td>
+                            <button mat-flat-button class="view-btn" (click)="viewPatient(item.patientId)">
+                                View Details
+                            </button>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </mat-card>
+</div>
