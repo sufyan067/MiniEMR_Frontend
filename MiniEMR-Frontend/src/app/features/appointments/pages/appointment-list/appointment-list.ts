@@ -84,20 +84,31 @@ export class AppointmentList implements OnInit {
       });
   }
   startVisit(id: number): void {
-    this.router.navigate([
-      '/visits/start',
-      id
-    ]);
+    this.router.navigate(['/visits/start', id]);
+  }
+  viewVisit(appointmentId: number): void {
+    this.router.navigate(['/visits/view', appointmentId]);
   }
   onStatusChange(status: string): void {
     this.selectedStatus.set(status);
   }
   isDoctor(): boolean {
-    return this.authState
-      .currentUser()?.role === 'Doctor';
+    return this.authState.currentUser()?.role === 'Doctor';
   }
   isReceptionist(): boolean {
-    return this.authState
-      .currentUser()?.role === 'Receptionist';
+    return this.authState.currentUser()?.role === 'Receptionist';
+  }
+  isMyAppointment(item: any): boolean {
+    const uid = this.authState.currentUser()?.userId;
+    return uid != null && Number(item.doctorId) === Number(uid);
+  }
+  canCheckIn(item: any): boolean {
+    return this.isReceptionist() || this.isMyAppointment(item);
+  }
+  canCancel(item: any): boolean {
+    return this.isReceptionist() || this.isMyAppointment(item);
+  }
+  canStartVisit(item: any): boolean {
+    return this.isDoctor() && this.isMyAppointment(item) && item.statusText === 'CheckedIn';
   }
 }

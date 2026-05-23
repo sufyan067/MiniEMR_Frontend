@@ -1,6 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-
+import { AuthService } from './features/auth/services/auth.service';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet],
@@ -8,5 +8,6 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('MiniEMR-Frontend');
+  private authService = inject(AuthService);
+  constructor() { this.authService.restoreUser(); }
 }

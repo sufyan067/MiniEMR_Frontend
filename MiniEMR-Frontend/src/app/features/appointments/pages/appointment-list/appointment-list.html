@@ -144,37 +144,46 @@
                     </td>
 
                     <td>
-
                         <div class="actions">
 
-                            @if(isReceptionist() &&
-                            item.statusText === 'Booked') {
-
-                            <button mat-flat-button class="action-btn checkin" (click)="checkIn(item.appointmentId)">
-
-                                Check-In
-
-                            </button>
-
-                            <button mat-flat-button class="action-btn cancel" (click)="cancel(item.appointmentId)">
-
-                                Cancel
-
-                            </button>
+                            @if (item.statusText === 'Booked') {
+                                @if (canCheckIn(item)) {
+                                    <button mat-flat-button class="action-btn checkin"
+                                        (click)="checkIn(item.appointmentId)">
+                                        Check-In
+                                    </button>
+                                }
+                                @if (canCancel(item)) {
+                                    <button mat-flat-button class="action-btn cancel"
+                                        (click)="cancel(item.appointmentId)">
+                                        Cancel
+                                    </button>
+                                }
                             }
 
-                            @if(isDoctor() &&
-                            item.statusText === 'CheckedIn') {
+                            @if (item.statusText === 'CheckedIn') {
+                                @if (canStartVisit(item)) {
+                                    <button mat-flat-button class="action-btn visit"
+                                        (click)="startVisit(item.appointmentId)">
+                                        Start Visit
+                                    </button>
+                                }
+                                @if (canCancel(item)) {
+                                    <button mat-flat-button class="action-btn cancel"
+                                        (click)="cancel(item.appointmentId)">
+                                        Cancel
+                                    </button>
+                                }
+                            }
 
-                            <button mat-flat-button class="action-btn visit" (click)="startVisit(item.appointmentId)">
-
-                                Start Visit
-
-                            </button>
+                            @if (item.statusText === 'Completed') {
+                                <button mat-flat-button class="action-btn view-visit"
+                                    (click)="viewVisit(item.appointmentId)">
+                                    View Visit
+                                </button>
                             }
 
                         </div>
-
                     </td>
 
                 </tr>

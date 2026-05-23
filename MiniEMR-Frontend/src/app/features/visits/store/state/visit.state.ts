@@ -1,32 +1,25 @@
+import { VitalModel, PrescribedMedicineRequest, VisitStartModel } from '../../models/visit.models';
+
 export interface VisitState {
+    visitStart: VisitStartModel | null;
     chiefComplaint: string;
     visitNote: string;
     diagnosis: string;
-    vital: {
-        heightCm: number;
-        weightKg: number;
-        bmi: number;
-        bpSystolic: number;
-        bpDiastolic: number;
-        pulseRate: number;
-        temperatureF: number;
-        respiratoryRate: number;
-    };
-    prescribedMedicines: any[];
+    vital: VitalModel | null;
+    prescribedMedicines: PrescribedMedicineRequest[];
+    loading: boolean;
+    saved: boolean;
+    error: string | null;
 }
+
 export const initialVisitState: VisitState = {
+    visitStart: null,
     chiefComplaint: '',
     visitNote: '',
     diagnosis: '',
-    vital: {
-        heightCm: 0,
-        weightKg: 0,
-        bmi: 0,
-        bpSystolic: 0,
-        bpDiastolic: 0,
-        pulseRate: 0,
-        temperatureF: 0,
-        respiratoryRate: 0
-    },
-    prescribedMedicines: []
+    vital: null,
+    prescribedMedicines: [],
+    loading: false,
+    saved: false,
+    error: null
 };

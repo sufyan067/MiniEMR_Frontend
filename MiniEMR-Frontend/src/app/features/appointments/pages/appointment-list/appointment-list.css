@@ -176,8 +176,11 @@ tbody tr:hover {
 }
 
 .action-btn.visit {
-
     background: #dbeafe;
-
     color: #2563eb;
+}
+
+.action-btn.view-visit {
+    background: #ede9fe;
+    color: #6d28d9;
 }

@@ -1,0 +1,106 @@
+<h2 mat-dialog-title>Register New Patient</h2>
+
+<mat-dialog-content [formGroup]="form">
+
+    @if (errorMessage) {
+        <div class="error-banner">
+            <mat-icon>error_outline</mat-icon>
+            {{ errorMessage }}
+        </div>
+    }
+
+    <div class="form-row">
+        <mat-form-field appearance="outline">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="firstName" placeholder="e.g. Ahmed" required>
+            @if (f.firstName.touched && f.firstName.hasError('required')) {
+                <mat-error>First name is required</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="lastName" placeholder="e.g. Khan" required>
+            @if (f.lastName.touched && f.lastName.hasError('required')) {
+                <mat-error>Last name is required</mat-error>
+            }
+        </mat-form-field>
+    </div>
+
+    <div class="form-row">
+        <mat-form-field appearance="outline">
+            <mat-label>Date of Birth</mat-label>
+            <input matInput [matDatepicker]="dobPicker" formControlName="dateOfBirth"
+                [max]="maxDate" placeholder="DD/MM/YYYY" readonly required>
+            <mat-datepicker-toggle matIconSuffix [for]="dobPicker"></mat-datepicker-toggle>
+            <mat-datepicker #dobPicker></mat-datepicker>
+            @if (f.dateOfBirth.touched && f.dateOfBirth.hasError('required')) {
+                <mat-error>Date of birth is required</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Gender</mat-label>
+            <mat-select formControlName="gender" required>
+                <mat-option value="Male">Male</mat-option>
+                <mat-option value="Female">Female</mat-option>
+                <mat-option value="Other">Other</mat-option>
+            </mat-select>
+            @if (f.gender.touched && f.gender.hasError('required')) {
+                <mat-error>Gender is required</mat-error>
+            }
+        </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+        <mat-label>CNIC</mat-label>
+        <input matInput formControlName="cNIC" placeholder="35201-1234567-1" required>
+        @if (f.cNIC.touched && f.cNIC.hasError('required')) {
+            <mat-error>CNIC is required</mat-error>
+        }
+        @if (f.cNIC.touched && f.cNIC.hasError('cnicFormat')) {
+            <mat-error>Format: 35201-1234567-1</mat-error>
+        }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Phone Number</mat-label>
+        <input matInput formControlName="phoneNumber" placeholder="03xx-xxxxxxx" required>
+        @if (f.phoneNumber.touched && f.phoneNumber.hasError('required')) {
+            <mat-error>Phone number is required</mat-error>
+        }
+        @if (f.phoneNumber.touched && f.phoneNumber.hasError('pattern')) {
+            <mat-error>Enter a valid phone number</mat-error>
+        }
+    </mat-form-field>
+
+    <div class="form-row">
+        <mat-form-field appearance="outline">
+            <mat-label>Blood Group (optional)</mat-label>
+            <mat-select formControlName="bloodGroup">
+                <mat-option value="">-- None --</mat-option>
+                <mat-option value="A+">A+</mat-option>
+                <mat-option value="A-">A-</mat-option>
+                <mat-option value="B+">B+</mat-option>
+                <mat-option value="B-">B-</mat-option>
+                <mat-option value="AB+">AB+</mat-option>
+                <mat-option value="AB-">AB-</mat-option>
+                <mat-option value="O+">O+</mat-option>
+                <mat-option value="O-">O-</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Address (optional)</mat-label>
+            <input matInput formControlName="address" placeholder="Street, City">
+        </mat-form-field>
+    </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-stroked-button (click)="cancel()" [disabled]="saving">Cancel</button>
+    <button mat-raised-button color="primary" (click)="save()" [disabled]="saving">
+        @if (saving) { Saving... } @else { Register Patient }
+    </button>
+</mat-dialog-actions>

@@ -1,0 +1,119 @@
+.prescription-section {
+    background: white;
+    border-radius: 16px;
+    padding: 24px 28px 20px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 22px;
+}
+
+.section-icon {
+    font-size: 16px;
+    color: #64748b;
+}
+
+.section-title h2 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.2px;
+    flex: 1;
+}
+
+.add-btn {
+    background: #ede9fe !important;
+    color: #6d28d9 !important;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 8px;
+}
+
+.medicine-card {
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px 20px 16px;
+    margin-bottom: 16px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.medicine-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 28px;
+}
+
+.rx-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.rx-field.full-row {
+    grid-column: 1 / -1;
+}
+
+.field-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+    font-family: 'Inter', sans-serif;
+}
+
+.optional {
+    font-weight: 400;
+    color: #9ca3af;
+}
+
+.input-wrap {
+    border: 1.5px solid #d1d5db;
+    border-radius: 8px;
+    background: white;
+    transition: border-color 0.18s ease;
+}
+
+.input-wrap:focus-within {
+    border-color: #6366f1;
+}
+
+.input-wrap input,
+.input-wrap select {
+    width: 100%;
+    padding: 10px 14px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    color: #111827;
+    background: transparent;
+    box-sizing: border-box;
+}
+
+.input-wrap input::placeholder {
+    color: #9ca3af;
+}
+
+.input-wrap select {
+    cursor: pointer;
+    appearance: auto;
+}
+
+.field-error {
+    font-size: 12px;
+    color: #ef4444;
+    font-family: 'Inter', sans-serif;
+}
+
+.remove-btn {
+    color: #ef4444 !important;
+    flex-shrink: 0;
+    margin-top: 22px;
+}

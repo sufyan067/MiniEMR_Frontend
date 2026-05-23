@@ -1,61 +1,93 @@
-<h2 mat-dialog-title>
-    Book Appointment
-</h2>
-<mat-dialog-content>
-    <div class="patient-context">
-        Booking appointment for:
-        <strong>
-            {{ data.fullName }}
-        </strong>
-    </div>
-    <form [formGroup]="appointmentForm">
-        <div class="form-grid">
-            <mat-form-field appearance="outline">
-                <mat-label>Doctor</mat-label>
-                <mat-select formControlName="doctorId">
-                    @for(item of doctors();
-                    track item.userId) {
-                    <mat-option [value]="item.userId">
-                        {{ item.fullName }}
-                    </mat-option>
-                    }
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-                <mat-label>Date</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="appointmentDate">
-                <mat-datepicker-toggle matIconSuffix [for]="picker">
-                </mat-datepicker-toggle>
-                <mat-datepicker #picker />
-            </mat-form-field>
-            <div class="slot-section">
-                <h3>Appointment Time</h3>
-                <div class="slots-grid">
-                    @for(slot of timeSlots; track slot) {
-                    <button type="button" class="slot-btn" [class.active-slot]="selectedTimeSlot() === slot"
-                        (click)="selectTimeSlot(slot)">
-                        {{ slot }}
-                    </button>
-                    }
-                </div>
-            </div>
+<h2 mat-dialog-title>Book Appointment</h2>
+
+<mat-dialog-content [formGroup]="form">
+
+    @if (errorMessage) {
+        <div class="error-banner">
+            <mat-icon>error_outline</mat-icon>
+            {{ errorMessage }}
         </div>
+    }
+
+    @if (hasPreselectedPatient) {
+        <div class="patient-context">
+            <mat-icon>person</mat-icon>
+            Booking for: <strong>{{ data.fullName }}</strong>
+        </div>
+    } @else {
         <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Notes</mat-label>
-            <textarea matInput rows="4" formControlName="notes">
-      </textarea>
+            <mat-label>Patient</mat-label>
+            <mat-select formControlName="patientId">
+                @for(p of patients(); track p.patientId) {
+                    <mat-option [value]="p.patientId">
+                        {{ p.fullName }} &nbsp;—&nbsp; {{ p.cNIC }}
+                    </mat-option>
+                }
+            </mat-select>
+            @if (form.controls.patientId.touched && form.controls.patientId.hasError('min')) {
+                <mat-error>Please select a patient</mat-error>
+            }
         </mat-form-field>
-    </form>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>
-        Cancel
-    </button>
-    <button mat-raised-button color="primary" [disabled]="isSaving()" (click)="save()">
-        @if(isSaving()) {
-        Saving...
+    }
+
+    <div class="form-row">
+        @if (hasPreselectedDoctor) {
+            <div class="patient-context">
+                <mat-icon>person</mat-icon>
+                Doctor: <strong>{{ data.doctorName }}</strong>
+            </div>
         } @else {
-        Book Appointment
+        <mat-form-field appearance="outline">
+            <mat-label>Doctor</mat-label>
+            <mat-select formControlName="doctorId">
+                @for(d of doctors(); track d.userId) {
+                    <mat-option [value]="d.userId">
+                        {{ d.fullName }}
+                        @if (d.specialization) { — {{ d.specialization }} }
+                    </mat-option>
+                }
+            </mat-select>
+            @if (form.controls.doctorId.touched && form.controls.doctorId.hasError('min')) {
+                <mat-error>Please select a doctor</mat-error>
+            }
+        </mat-form-field>
         }
+
+        <mat-form-field appearance="outline">
+            <mat-label>Date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="appointmentDate"
+                [min]="minDate" readonly>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            @if (form.controls.appointmentDate.touched && form.controls.appointmentDate.hasError('required')) {
+                <mat-error>Please select a date</mat-error>
+            }
+        </mat-form-field>
+    </div>
+
+    <div class="slot-section">
+        <h3>Select Time</h3>
+        <div class="slots-grid">
+            @for(slot of timeSlots; track slot) {
+                <button type="button" class="slot-btn"
+                    [class.active-slot]="selectedTimeSlot() === slot"
+                    (click)="selectTimeSlot(slot)">
+                    {{ slot }}
+                </button>
+            }
+        </div>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Notes (optional)</mat-label>
+        <textarea matInput rows="3" formControlName="notes" placeholder="Any special instructions..."></textarea>
+    </mat-form-field>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-stroked-button (click)="cancel()" [disabled]="isSaving()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="save()" [disabled]="isSaving()">
+        @if (isSaving()) { Booking... } @else { Book Appointment }
     </button>
 </mat-dialog-actions>

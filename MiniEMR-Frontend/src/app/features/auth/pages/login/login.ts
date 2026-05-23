@@ -6,29 +6,24 @@ import {
   Validators
 } from '@angular/forms';
 
-import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
-
   standalone: true,
-
   imports: [
     ReactiveFormsModule,
-
-    MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule
   ],
-
   templateUrl: './login.html',
-
   styleUrl: './login.css'
 })
 export class Login {
@@ -38,40 +33,36 @@ export class Login {
   private authService = inject(AuthService);
 
   isLoading = signal(false);
+  errorMessage = signal('');
+  showPassword = signal(false);
+
   ngOnInit() {
-    // Any initialization logic can go here
-    this.authService.logout(); // Ensure user is logged out when visiting the login page
+    this.authService.logout();
   }
 
   loginForm = this.fb.nonNullable.group({
-
     username: ['', Validators.required],
-
     password: ['', Validators.required]
   });
 
   login(): void {
-
     if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
       return;
     }
 
     this.isLoading.set(true);
+    this.errorMessage.set('');
 
     this.authService.login(this.loginForm.getRawValue())
       .subscribe({
-
-        next: response => {
-
+        next: () => {
+          this.isLoading.set(false);
           this.router.navigate(['/dashboard']);
-          this.isLoading.set(false);
         },
-
-        error: error => {
-
-          console.error(error);
-
+        error: () => {
           this.isLoading.set(false);
+          this.errorMessage.set('Invalid credentials. Please try again.');
         }
       });
   }

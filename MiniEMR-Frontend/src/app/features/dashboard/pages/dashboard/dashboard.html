@@ -1,27 +1,4 @@
 <div class="dashboard-page">
-    <div class="welcome-banner">
-        <div>
-            <h2>
-                Welcome back,
-                {{ authState.currentUser()?.fullName }}
-            </h2>
-            <p>
-                Monitor appointments, patient visits and clinical workflows in real-time.
-            </p>
-        </div>
-    </div>
-    <div class="dashboard-header">
-        <div>
-            <h1>Healthcare Dashboard</h1>
-            <p>
-                Real-time overview of appointments and clinical operations.
-            </p>
-        </div>
-        <button mat-raised-button color="primary">
-            <mat-icon>refresh</mat-icon>
-            Refresh
-        </button>
-    </div>
     @if(summary()) {
     <div class="summary-grid">
         <div class="summary-card total">
@@ -77,6 +54,81 @@
         </div>
     </div>
     }
+    @if(isDoctor()) {
+    <div class="today-appt-card">
+        <div class="today-appt-header">
+            <div class="today-appt-title">
+                <mat-icon>today</mat-icon>
+                <h2>My Today's Appointments</h2>
+            </div>
+            <span class="today-count-badge">{{ todayDoctorAppointments().length }}</span>
+        </div>
+
+        @if(todayDoctorAppointments().length === 0) {
+            <div class="today-empty">
+                <mat-icon>event_busy</mat-icon>
+                <p>No appointments scheduled for today.</p>
+            </div>
+        } @else {
+            <div class="today-appt-list">
+                @for(item of todayDoctorAppointments(); track item.appointmentId) {
+                <div class="today-appt-row">
+                    <div class="today-patient-info">
+                        <div class="today-avatar">{{ item.patientName.charAt(0) }}</div>
+                        <div>
+                            <div class="today-patient-name">{{ item.patientName }}</div>
+                            <div class="today-patient-meta">{{ item.age }} yrs, {{ item.gender }}</div>
+                        </div>
+                    </div>
+                    <div class="today-time">
+                        <mat-icon>schedule</mat-icon>
+                        {{ item.appointmentDateTime | date:'hh:mm a' }}
+                    </div>
+                    <span class="status-chip"
+                        [class.booked]="item.statusText === 'Booked'"
+                        [class.checkedin]="item.statusText === 'CheckedIn'"
+                        [class.completed]="item.statusText === 'Completed'"
+                        [class.cancelled]="item.statusText === 'Cancelled'">
+                        {{ item.statusText }}
+                    </span>
+                    <div class="today-action">
+                        @if(item.statusText === 'CheckedIn') {
+                        <button mat-raised-button color="primary" class="start-visit-btn"
+                            (click)="startVisit(item.appointmentId)">
+                            <mat-icon>play_arrow</mat-icon>
+                            Start Visit
+                        </button>
+                        <button mat-raised-button class="today-cancel-btn"
+                            (click)="cancel(item.appointmentId)">
+                            <mat-icon>cancel</mat-icon>
+                            Cancel
+                        </button>
+                        }
+                        @if(item.statusText === 'Booked') {
+                        <button mat-raised-button class="today-checkin-btn"
+                            (click)="checkIn(item.appointmentId)">
+                            <mat-icon>how_to_reg</mat-icon>
+                            Check-In
+                        </button>
+                        <button mat-raised-button class="today-cancel-btn"
+                            (click)="cancel(item.appointmentId)">
+                            <mat-icon>cancel</mat-icon>
+                            Cancel
+                        </button>
+                        }
+                        @if(item.statusText === 'Completed') {
+                        <span class="done-label">
+                            <mat-icon>check_circle</mat-icon> Done
+                        </span>
+                        }
+                    </div>
+                </div>
+                }
+            </div>
+        }
+    </div>
+    }
+
     <div class="filters-section">
         <mat-form-field appearance="outline">
             <mat-label>Date</mat-label>
@@ -141,27 +193,39 @@
                         </td>
                         <td>
                             <div class="actions">
-                                @if(isReceptionist() &&
-                                item.statusText === 'Booked') {
-                                <button mat-flat-button class="action-btn checkin"
-                                    (click)="checkIn(item.appointmentId)">
-
-                                    Check-In
-
-                                </button>
-                                <button mat-flat-button class="action-btn cancel" (click)="cancel(item.appointmentId)">
-                                    Cancel
-                                </button>
+                                @if (item.statusText === 'Booked') {
+                                    @if (canCheckIn(item)) {
+                                        <button mat-flat-button class="action-btn checkin"
+                                            (click)="checkIn(item.appointmentId)">
+                                            Check-In
+                                        </button>
+                                    }
+                                    @if (canCancel(item)) {
+                                        <button mat-flat-button class="action-btn cancel"
+                                            (click)="cancel(item.appointmentId)">
+                                            Cancel
+                                        </button>
+                                    }
                                 }
-                                @if(isDoctor() &&
-                                item.statusText === 'CheckedIn') {
-                                <button mat-flat-button class="action-btn visit"
-                                    (click)="startVisit(item.appointmentId)">Start Visit</button>
+                                @if (item.statusText === 'CheckedIn') {
+                                    @if (canStartVisit(item)) {
+                                        <button mat-flat-button class="action-btn visit"
+                                            (click)="startVisit(item.appointmentId)">
+                                            Start Visit
+                                        </button>
+                                    }
+                                    @if (canCancel(item)) {
+                                        <button mat-flat-button class="action-btn cancel"
+                                            (click)="cancel(item.appointmentId)">
+                                            Cancel
+                                        </button>
+                                    }
                                 }
-                                @if(item.statusText === 'Completed') {
-                                <button mat-flat-button class="action-btn completed">
-                                    View Visit
-                                </button>
+                                @if (item.statusText === 'Completed') {
+                                    <button mat-flat-button class="action-btn completed"
+                                        (click)="viewVisit(item.appointmentId)">
+                                        View Visit
+                                    </button>
                                 }
                             </div>
                         </td>

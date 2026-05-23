@@ -1,1 +1,123 @@
-<p>vitals-section works!</p>
+<div class="vitals-section">
+
+    <div class="section-title">
+        <span class="section-icon">&#9829;</span>
+        <h2>Vitals</h2>
+    </div>
+
+    <div class="vitals-grid" [formGroup]="form">
+
+        <div class="vital-field">
+            <label class="field-label">Height (cm)</label>
+            <div class="input-wrap">
+                <input type="number" formControlName="heightCm" placeholder="e.g. 170">
+            </div>
+        </div>
+
+        <div class="vital-field">
+            <label class="field-label">Weight (kg)</label>
+            <div class="input-wrap">
+                <input type="number" formControlName="weightKg" placeholder="e.g. 70">
+            </div>
+        </div>
+
+        <div class="vital-field">
+            <label class="field-label">BMI (auto-calculated)</label>
+            <div class="input-wrap bmi-wrap"
+                 [class.wrap-normal]="statusOf('bMI') === 'normal'"
+                 [class.wrap-abnormal]="statusOf('bMI') === 'abnormal'">
+                <input type="number" formControlName="bMI" placeholder="Auto-calculated" readonly>
+            </div>
+            @if (statusOf('bMI') === 'normal') {
+                <p class="status-ok">&#10003; Normal</p>
+            }
+            @if (statusOf('bMI') === 'abnormal') {
+                <p class="status-warn">&#9651; Abnormal (normal: {{ rangeLabel('bMI') }})</p>
+            }
+        </div>
+
+        <div class="vital-field">
+            <label class="field-label">Temperature (°F)</label>
+            <div class="input-wrap"
+                 [class.wrap-normal]="statusOf('temperatureF') === 'normal'"
+                 [class.wrap-abnormal]="statusOf('temperatureF') === 'abnormal'">
+                <input type="number" formControlName="temperatureF" placeholder="e.g. 98.6">
+            </div>
+            @if (statusOf('temperatureF') === 'normal') {
+                <p class="status-ok">&#10003; Normal</p>
+            }
+            @if (statusOf('temperatureF') === 'abnormal') {
+                <p class="status-warn">&#9651; Abnormal (normal: {{ rangeLabel('temperatureF') }})</p>
+            }
+        </div>
+
+        <div class="vital-field">
+            <label class="field-label">BP Systolic (mmHg)</label>
+            <div class="input-wrap"
+                 [class.wrap-normal]="statusOf('bPSystolic') === 'normal'"
+                 [class.wrap-abnormal]="statusOf('bPSystolic') === 'abnormal'">
+                <input type="number" formControlName="bPSystolic" placeholder="e.g. 120">
+            </div>
+            @if (statusOf('bPSystolic') === 'normal') {
+                <p class="status-ok">&#10003; Normal</p>
+            }
+            @if (statusOf('bPSystolic') === 'abnormal') {
+                <p class="status-warn">&#9651; Abnormal (normal: {{ rangeLabel('bPSystolic') }})</p>
+            }
+        </div>
+
+        <div class="vital-field">
+            <label class="field-label">BP Diastolic (mmHg)</label>
+            <div class="input-wrap"
+                 [class.wrap-normal]="statusOf('bPDiastolic') === 'normal'"
+                 [class.wrap-abnormal]="statusOf('bPDiastolic') === 'abnormal'">
+                <input type="number" formControlName="bPDiastolic" placeholder="e.g. 80">
+            </div>
+            @if (statusOf('bPDiastolic') === 'normal') {
+                <p class="status-ok">&#10003; Normal</p>
+            }
+            @if (statusOf('bPDiastolic') === 'abnormal') {
+                <p class="status-warn">&#9651; Abnormal (normal: {{ rangeLabel('bPDiastolic') }})</p>
+            }
+        </div>
+
+        <div class="vital-field">
+            <label class="field-label">Pulse (bpm)</label>
+            <div class="input-wrap"
+                 [class.wrap-normal]="statusOf('pulseRate') === 'normal'"
+                 [class.wrap-abnormal]="statusOf('pulseRate') === 'abnormal'">
+                <input type="number" formControlName="pulseRate" placeholder="e.g. 72">
+            </div>
+            @if (statusOf('pulseRate') === 'normal') {
+                <p class="status-ok">&#10003; Normal</p>
+            }
+            @if (statusOf('pulseRate') === 'abnormal') {
+                <p class="status-warn">&#9651; Abnormal (normal: {{ rangeLabel('pulseRate') }})</p>
+            }
+        </div>
+
+        <div class="vital-field">
+            <label class="field-label">Respiratory Rate (/min)</label>
+            <div class="input-wrap"
+                 [class.wrap-normal]="statusOf('respiratoryRate') === 'normal'"
+                 [class.wrap-abnormal]="statusOf('respiratoryRate') === 'abnormal'">
+                <input type="number" formControlName="respiratoryRate" placeholder="e.g. 16">
+            </div>
+            @if (statusOf('respiratoryRate') === 'normal') {
+                <p class="status-ok">&#10003; Normal</p>
+            }
+            @if (statusOf('respiratoryRate') === 'abnormal') {
+                <p class="status-warn">&#9651; Abnormal (normal: {{ rangeLabel('respiratoryRate') }})</p>
+            }
+        </div>
+
+    </div>
+
+    <div class="vital-legend">
+        <span class="legend-icon">&#9651;</span>
+        <span>Fields highlighted in orange = outside normal range.&nbsp;
+            Normal: BP 90–140 / 60–90 &nbsp;&middot;&nbsp; Pulse 60–100 &nbsp;&middot;&nbsp; Temp 97–99°F &nbsp;&middot;&nbsp; RR 12–20
+        </span>
+    </div>
+
+</div>

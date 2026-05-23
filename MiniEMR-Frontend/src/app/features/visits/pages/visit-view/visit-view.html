@@ -1,0 +1,155 @@
+<div class="view-shell">
+
+    <div class="view-header">
+        <button mat-icon-button class="back-btn" (click)="back()">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <div>
+            <h1>Visit Summary</h1>
+            @if (visit()) {
+                <p class="appt-meta">
+                    {{ visit()!.patientName }}&nbsp;&middot;&nbsp;
+                    {{ visit()!.appointmentDateTime | date:'dd MMM yyyy, h:mm a' }}&nbsp;&middot;&nbsp;
+                    {{ visit()!.doctorName }}
+                </p>
+            }
+        </div>
+    </div>
+
+    @if (loading()) {
+        <div class="loading-state">
+            <mat-icon>hourglass_empty</mat-icon>
+            Loading visit details&hellip;
+        </div>
+    }
+
+    @if (error()) {
+        <div class="error-banner">
+            <mat-icon>error_outline</mat-icon>
+            {{ error() }}
+        </div>
+    }
+
+    @if (visit(); as v) {
+
+        <div class="patient-card">
+            <div class="patient-info-grid">
+                <div class="info-item">
+                    <span class="info-label">Patient</span>
+                    <span class="info-value">{{ v.patientName }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Age / Gender</span>
+                    <span class="info-value">{{ v.age }} yrs / {{ v.gender }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Doctor</span>
+                    <span class="info-value">Dr. {{ v.doctorName }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Date &amp; Time</span>
+                    <span class="info-value">{{ v.appointmentDateTime | date:'dd MMM yyyy, h:mm a' }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2 class="section-title">
+                <mat-icon>description</mat-icon>
+                Clinical Notes
+            </h2>
+            <div class="notes-grid">
+                <div class="note-item">
+                    <span class="note-label">Chief Complaint</span>
+                    <p class="note-value">{{ v.chiefComplaint || '—' }}</p>
+                </div>
+                <div class="note-item">
+                    <span class="note-label">Visit Note</span>
+                    <p class="note-value">{{ v.visitNote || '—' }}</p>
+                </div>
+                <div class="note-item full-row">
+                    <span class="note-label">Diagnosis</span>
+                    <p class="note-value diagnosis">{{ v.diagnosis || '—' }}</p>
+                </div>
+            </div>
+        </div>
+
+        @if (v.vital) {
+            <div class="section-card">
+                <h2 class="section-title">
+                    <mat-icon>favorite_border</mat-icon>
+                    Vitals
+                </h2>
+                <div class="vitals-grid">
+                    @if (v.vital.heightCm) {
+                        <div class="vital-chip">
+                            <span class="chip-label">Height</span>
+                            <span class="chip-value">{{ v.vital.heightCm }} cm</span>
+                        </div>
+                    }
+                    @if (v.vital.weightKg) {
+                        <div class="vital-chip">
+                            <span class="chip-label">Weight</span>
+                            <span class="chip-value">{{ v.vital.weightKg }} kg</span>
+                        </div>
+                    }
+                    @if (v.vital.bMI) {
+                        <div class="vital-chip">
+                            <span class="chip-label">BMI</span>
+                            <span class="chip-value">{{ v.vital.bMI }}</span>
+                        </div>
+                    }
+                    @if (v.vital.bPSystolic && v.vital.bPDiastolic) {
+                        <div class="vital-chip">
+                            <span class="chip-label">Blood Pressure</span>
+                            <span class="chip-value">{{ v.vital.bPSystolic }}/{{ v.vital.bPDiastolic }} mmHg</span>
+                        </div>
+                    }
+                    @if (v.vital.pulseRate) {
+                        <div class="vital-chip">
+                            <span class="chip-label">Pulse</span>
+                            <span class="chip-value">{{ v.vital.pulseRate }} bpm</span>
+                        </div>
+                    }
+                    @if (v.vital.temperatureF) {
+                        <div class="vital-chip">
+                            <span class="chip-label">Temperature</span>
+                            <span class="chip-value">{{ v.vital.temperatureF }} °F</span>
+                        </div>
+                    }
+                    @if (v.vital.respiratoryRate) {
+                        <div class="vital-chip">
+                            <span class="chip-label">Resp. Rate</span>
+                            <span class="chip-value">{{ v.vital.respiratoryRate }} /min</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+
+        @if (v.prescribedMedicines && v.prescribedMedicines.length > 0) {
+            <div class="section-card">
+                <h2 class="section-title">
+                    <mat-icon>medication</mat-icon>
+                    Prescriptions
+                </h2>
+                <div class="rx-list">
+                    @for (med of v.prescribedMedicines; track med.medicineId) {
+                        <div class="rx-row">
+                            <div class="rx-name">{{ med.medicineName }}</div>
+                            <div class="rx-details">
+                                <span class="rx-tag">{{ med.dosage }}</span>
+                                <span class="rx-tag">{{ med.frequencyText }}</span>
+                                <span class="rx-tag">{{ med.duration }}</span>
+                                @if (med.instructions) {
+                                    <span class="rx-tag instructions">{{ med.instructions }}</span>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    }
+
+</div>

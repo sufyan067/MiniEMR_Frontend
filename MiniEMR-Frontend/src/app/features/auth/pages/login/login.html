@@ -1,35 +1,62 @@
-<div class="login-container">
+<div class="login-page">
 
-    <mat-card>
+    <div class="login-bg-overlay"></div>
 
-        <h2>MiniEMR Login</h2>
+    <div class="login-card">
 
-        <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <div class="brand-section">
+            <div class="brand-icon">
+                <mat-icon>local_hospital</mat-icon>
+            </div>
+            <h1 class="brand-name">CureEMR</h1>
+            <p class="brand-tagline">Electronic Medical Records System</p>
+        </div>
 
-            <mat-form-field appearance="outline">
+        <form [formGroup]="loginForm" (ngSubmit)="login()" class="login-form">
 
-                <mat-label>Username</mat-label>
+            <div class="form-group">
+                <label class="form-label">Username</label>
+                <div class="input-wrap" [class.input-error]="loginForm.get('username')?.touched && loginForm.get('username')?.invalid">
+                    <mat-icon class="input-icon">person_outline</mat-icon>
+                    <input formControlName="username" placeholder="Enter your username" autocomplete="username">
+                </div>
+            </div>
 
-                <input matInput formControlName="username">
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <div class="input-wrap" [class.input-error]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+                    <mat-icon class="input-icon">lock_outline</mat-icon>
+                    <input formControlName="password"
+                           [type]="showPassword() ? 'text' : 'password'"
+                           placeholder="Enter your password"
+                           autocomplete="current-password">
+                    <button type="button" class="toggle-pw" (click)="showPassword.set(!showPassword())">
+                        <mat-icon>{{ showPassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+                    </button>
+                </div>
+            </div>
 
-            </mat-form-field>
+            @if (errorMessage()) {
+                <div class="error-alert">
+                    <mat-icon>error_outline</mat-icon>
+                    {{ errorMessage() }}
+                </div>
+            }
 
-            <mat-form-field appearance="outline">
-
-                <mat-label>Password</mat-label>
-
-                <input matInput type="password" formControlName="password">
-
-            </mat-form-field>
-
-            <button mat-raised-button color="primary" type="submit">
-
-                Login
-
+            <button class="sign-in-btn" type="submit" [disabled]="isLoading()">
+                @if (isLoading()) {
+                    <span class="spinner"></span>
+                    Signing in&hellip;
+                } @else {
+                    <mat-icon>login</mat-icon>
+                    Sign In
+                }
             </button>
 
         </form>
 
-    </mat-card>
+        <p class="footer-note">Secure access &mdash; authorised personal only</p>
+
+    </div>
 
 </div>
