@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard } from '../../core/guarrds/auth.guard';
 import { unsavedChangesGuard } from '../../core/guards/unsaved-changes.guard';
+import { roleGuard } from '../../core/guards/role.guard';
 import { MainLayout } from '../../core/layouts/main-layout/main-layout';
 export const VISIT_ROUTES: Routes = [
     {
@@ -10,6 +11,7 @@ export const VISIT_ROUTES: Routes = [
         children: [
             {
                 path: 'start/:appointmentId',
+                canActivate: [roleGuard('Doctor')],
                 canDeactivate: [unsavedChangesGuard],
                 loadComponent: () =>
                     import('./pages/visit-shell/visit-shell')

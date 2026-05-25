@@ -61,6 +61,12 @@
         @if (f.cNIC.touched && f.cNIC.hasError('cnicFormat')) {
             <mat-error>Format: 35201-1234567-1</mat-error>
         }
+        @if (f.cNIC.touched && f.cNIC.hasError('cnicTaken')) {
+            <mat-error>This CNIC is already registered</mat-error>
+        }
+        @if (f.cNIC.pending) {
+            <mat-hint>Checking CNIC&hellip;</mat-hint>
+        }
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="full-width">

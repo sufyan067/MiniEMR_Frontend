@@ -323,24 +323,20 @@
 
 .visit-history-list {
     display: flex;
-    flex-direction: row;
-    gap: 16px;
+    flex-direction: column;
+    gap: 14px;
     margin-top: 20px;
-    overflow-x: auto;
-    padding-bottom: 8px;
 }
 
 .visit-entry {
     background: #f8fafc;
     border: 1px solid #e2e8f0;
-    border-radius: 16px;
-    padding: 18px;
+    border-left: 4px solid #3b82f6;
+    border-radius: 12px;
+    padding: 18px 20px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    min-width: 360px;
-    max-width: 420px;
-    flex-shrink: 0;
+    gap: 14px;
 }
 
 .visit-entry-header {
@@ -376,6 +372,31 @@
     border-radius: 999px;
 }
 
+.visit-entry-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+@media (max-width: 700px) {
+    .visit-entry-body {
+        grid-template-columns: 1fr;
+    }
+}
+
+.visit-clinical {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.visit-vitals-rx {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
 .visit-notes-row {
     display: flex;
     gap: 24px;
@@ -385,7 +406,7 @@
 .visit-note-item {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 4px;
 }
 
 .vnote-label {
@@ -405,6 +426,13 @@
 .diagnosis-text {
     color: #2563eb;
     font-weight: 600;
+}
+
+.visit-note-text {
+    font-size: 13px !important;
+    color: #475569 !important;
+    font-weight: 400 !important;
+    line-height: 1.6;
 }
 
 .visit-full-note {
@@ -497,4 +525,30 @@
 .rx-instructions {
     color: #64748b;
     font-style: italic;
+}
+
+.vital-chip.vital-normal {
+    background: #f0fdf4;
+    border-color: #86efac;
+}
+
+.vital-chip.vital-normal .vchip-value {
+    color: #15803d;
+}
+
+.vital-chip.vital-normal .vchip-label {
+    color: #166534;
+}
+
+.vital-chip.vital-abnormal {
+    background: #fff7ed;
+    border-color: #fdba74;
+}
+
+.vital-chip.vital-abnormal .vchip-value {
+    color: #c2410c;
+}
+
+.vital-chip.vital-abnormal .vchip-label {
+    color: #9a3412;
 }

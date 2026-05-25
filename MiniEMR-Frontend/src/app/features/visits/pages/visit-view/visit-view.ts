@@ -5,11 +5,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { VisitService } from '../../services/visit.service';
 import { VisitDetailModel } from '../../models/visit.models';
+import { VitalRangeDirective } from '../../../../core/directives/vital-range.directive';
+import { BmiPipe } from '../../../../core/pipes/bmi.pipe';
 
 @Component({
   selector: 'app-visit-view',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, MatButtonModule, MatIconModule, VitalRangeDirective, BmiPipe],
   templateUrl: './visit-view.html',
   styleUrl: './visit-view.css'
 })
@@ -37,7 +39,7 @@ export class VisitView implements OnInit {
   }
 
   back(): void {
-    this.router.navigate(['/appointments']);
+    this.router.navigate(['/dashboard']);
   }
 
   frequencyLabel(freq: number): string {

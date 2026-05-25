@@ -75,12 +75,37 @@
         </div>
 
         @if (v.vital) {
+            @let bmiVal = v.vital.bMI ?? (v.vital.weightKg | bmi: v.vital.heightCm);
             <div class="section-card">
                 <h2 class="section-title">
                     <mat-icon>favorite_border</mat-icon>
                     Vitals
                 </h2>
                 <div class="vitals-grid">
+                    @if (v.vital.bPSystolic && v.vital.bPDiastolic) {
+                        <div class="vital-chip" [appVitalRange]="'bPSystolic'" [rangeValue]="v.vital.bPSystolic">
+                            <span class="chip-label">Blood Pressure</span>
+                            <span class="chip-value">{{ v.vital.bPSystolic }}/{{ v.vital.bPDiastolic }} mmHg</span>
+                        </div>
+                    }
+                    @if (v.vital.pulseRate) {
+                        <div class="vital-chip" [appVitalRange]="'pulseRate'" [rangeValue]="v.vital.pulseRate">
+                            <span class="chip-label">Pulse</span>
+                            <span class="chip-value">{{ v.vital.pulseRate }} bpm</span>
+                        </div>
+                    }
+                    @if (v.vital.temperatureF) {
+                        <div class="vital-chip" [appVitalRange]="'temperatureF'" [rangeValue]="v.vital.temperatureF">
+                            <span class="chip-label">Temperature</span>
+                            <span class="chip-value">{{ v.vital.temperatureF }} °F</span>
+                        </div>
+                    }
+                    @if (v.vital.respiratoryRate) {
+                        <div class="vital-chip" [appVitalRange]="'respiratoryRate'" [rangeValue]="v.vital.respiratoryRate">
+                            <span class="chip-label">Resp. Rate</span>
+                            <span class="chip-value">{{ v.vital.respiratoryRate }} /min</span>
+                        </div>
+                    }
                     @if (v.vital.heightCm) {
                         <div class="vital-chip">
                             <span class="chip-label">Height</span>
@@ -93,34 +118,10 @@
                             <span class="chip-value">{{ v.vital.weightKg }} kg</span>
                         </div>
                     }
-                    @if (v.vital.bMI) {
-                        <div class="vital-chip">
+                    @if (bmiVal) {
+                        <div class="vital-chip" [appVitalRange]="'bMI'" [rangeValue]="bmiVal">
                             <span class="chip-label">BMI</span>
-                            <span class="chip-value">{{ v.vital.bMI }}</span>
-                        </div>
-                    }
-                    @if (v.vital.bPSystolic && v.vital.bPDiastolic) {
-                        <div class="vital-chip">
-                            <span class="chip-label">Blood Pressure</span>
-                            <span class="chip-value">{{ v.vital.bPSystolic }}/{{ v.vital.bPDiastolic }} mmHg</span>
-                        </div>
-                    }
-                    @if (v.vital.pulseRate) {
-                        <div class="vital-chip">
-                            <span class="chip-label">Pulse</span>
-                            <span class="chip-value">{{ v.vital.pulseRate }} bpm</span>
-                        </div>
-                    }
-                    @if (v.vital.temperatureF) {
-                        <div class="vital-chip">
-                            <span class="chip-label">Temperature</span>
-                            <span class="chip-value">{{ v.vital.temperatureF }} °F</span>
-                        </div>
-                    }
-                    @if (v.vital.respiratoryRate) {
-                        <div class="vital-chip">
-                            <span class="chip-label">Resp. Rate</span>
-                            <span class="chip-value">{{ v.vital.respiratoryRate }} /min</span>
+                            <span class="chip-value">{{ bmiVal }}</span>
                         </div>
                     }
                 </div>

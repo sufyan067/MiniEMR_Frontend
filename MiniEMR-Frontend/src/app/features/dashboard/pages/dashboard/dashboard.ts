@@ -23,7 +23,7 @@ import { AppointmentEventService } from '../../../../core/services/appointment-e
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatCardModule, MatButtonModule, MatIconModule, MatSelectModule, MatDatepickerModule, MatFormFieldModule, MatInputModule, DatePipe, ConfirmDialog],
+  imports: [CommonModule, FormsModule, MatCardModule, MatButtonModule, MatIconModule, MatSelectModule, MatDatepickerModule, MatFormFieldModule, MatInputModule, DatePipe],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
   providers: [provideNativeDateAdapter()]

@@ -1,7 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule, formatDate } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors, AsyncValidatorFn } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { Observable, of, timer } from 'rxjs';
+import { switchMap, map, catchError } from 'rxjs/operators';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -16,6 +18,18 @@ function cnicValidator(control: AbstractControl): ValidationErrors | null {
   const value: string = control.value ?? '';
   if (!value) return null;
   return /^\d{5}-\d{7}-\d{1}$/.test(value) ? null : { cnicFormat: true };
+}
+
+function cnicUniqueValidator(patientService: PatientService, excludeId: number): AsyncValidatorFn {
+  return (control: AbstractControl): Observable<ValidationErrors | null> => {
+    const value: string = control.value ?? '';
+    if (!value || !/^\d{5}-\d{7}-\d{1}$/.test(value)) return of(null);
+    return timer(400).pipe(
+      switchMap(() => patientService.checkCnic(value, excludeId)),
+      map(res => res.exists ? { cnicTaken: true } : null),
+      catchError(() => of(null))
+    );
+  };
 }
 
 @Component({
@@ -51,7 +65,7 @@ export class PatientEditDialog implements OnInit {
     lastName: ['', [Validators.required, Validators.maxLength(50)]],
     dateOfBirth: [null as Date | null, Validators.required],
     gender: ['', Validators.required],
-    cNIC: ['', [cnicValidator]],
+    cNIC: ['', [cnicValidator], [cnicUniqueValidator(this.patientService, this.data.patientId)]],
     phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9\-\+]{10,15}$/)]],
     bloodGroup: ['' as string],
     address: ['' as string]

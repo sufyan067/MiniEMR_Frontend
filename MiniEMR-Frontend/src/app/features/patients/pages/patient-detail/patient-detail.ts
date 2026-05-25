@@ -10,6 +10,9 @@ import { PatientService } from '../../services/patient.service';
 import { PatientDetailModel } from '../../models/patient.models';
 import { PatientEditDialog } from '../../components/patient-edit-dialog/patient-edit-dialog';
 import { AppointmentDialog } from '../../../appointments/components/appointment-dialog/appointment-dialog';
+import { VitalRangeDirective } from '../../../../core/directives/vital-range.directive';
+import { AgePipe } from '../../../../core/pipes/age.pipe';
+import { BmiPipe } from '../../../../core/pipes/bmi.pipe';
 
 @Component({
   selector: 'app-patient-detail',
@@ -18,7 +21,10 @@ import { AppointmentDialog } from '../../../appointments/components/appointment-
     CommonModule,
     MatCardModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    VitalRangeDirective,
+    AgePipe,
+    BmiPipe
   ],
   templateUrl: './patient-detail.html',
   styleUrl: './patient-detail.css'

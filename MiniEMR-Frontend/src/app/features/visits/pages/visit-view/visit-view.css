@@ -180,6 +180,32 @@
     color: #1e293b;
 }
 
+.vital-chip.vital-normal {
+    background: #f0fdf4;
+    border-color: #86efac;
+}
+
+.vital-chip.vital-normal .chip-label {
+    color: #166534;
+}
+
+.vital-chip.vital-normal .chip-value {
+    color: #15803d;
+}
+
+.vital-chip.vital-abnormal {
+    background: #fff7ed;
+    border-color: #fdba74;
+}
+
+.vital-chip.vital-abnormal .chip-label {
+    color: #9a3412;
+}
+
+.vital-chip.vital-abnormal .chip-value {
+    color: #c2410c;
+}
+
 .rx-list {
     display: flex;
     flex-direction: column;

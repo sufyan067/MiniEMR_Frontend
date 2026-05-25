@@ -35,4 +35,13 @@ export class PatientService {
       payload
     );
   }
+
+  checkCnic(cnic: string, excludeId?: number): Observable<{ exists: boolean }> {
+    const params: Record<string, string> = { cnic };
+    if (excludeId !== undefined) params['excludeId'] = String(excludeId);
+    return this.http.get<{ exists: boolean }>(
+      `${environment.apiUrl}/patient/check-cnic`,
+      { params }
+    );
+  }
 }
