@@ -1,0 +1,51 @@
+<div class="visit-shell">
+
+    <div class="visit-header">
+        @if (visitStart()) {
+            <h1>Visit &mdash; {{ visitStart()!.patientName }}</h1>
+            <p class="appt-meta">
+                Appointment {{ visitStart()!.appointmentDateTime | date:'h:mm a' }}
+                &nbsp;&middot;&nbsp;
+                {{ visitStart()!.doctorName }}
+            </p>
+        } @else {
+            <h1>Clinical Visit</h1>
+            <p class="appt-meta">Loading appointment&hellip;</p>
+        }
+    </div>
+
+    <div class="step-bar">
+        <button class="step-tab" [class.active]="currentStep() === 1" (click)="goToStep(1)">
+            1. Vitals
+        </button>
+        <button class="step-tab" [class.active]="currentStep() === 2" (click)="goToStep(2)">
+            2. Clinical Notes
+        </button>
+        <button class="step-tab" [class.active]="currentStep() === 3" (click)="goToStep(3)">
+            3. Prescription
+        </button>
+    </div>
+
+    @if (error()) {
+        <div class="error-banner">
+            <mat-icon>error_outline</mat-icon>
+            {{ error() }}
+        </div>
+    }
+
+    <div [hidden]="currentStep() !== 1"><app-vitals-section /></div>
+    <div [hidden]="currentStep() !== 2"><app-clinical-notes-section /></div>
+    <div [hidden]="currentStep() !== 3"><app-prescription-section /></div>
+
+    <div class="visit-actions">
+        <button mat-stroked-button class="discard-btn" (click)="discard()" [disabled]="loading()">
+            <mat-icon>close</mat-icon>
+            Discard
+        </button>
+        <button mat-raised-button color="primary" class="save-btn" (click)="saveVisit()" [disabled]="loading()">
+            <mat-icon>save</mat-icon>
+            @if (loading()) { Saving&hellip; } @else { Save Visit }
+        </button>
+    </div>
+
+</div>

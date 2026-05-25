@@ -1,0 +1,146 @@
+.vitals-section {
+    background: white;
+    border-radius: 16px;
+    padding: 24px 28px 20px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 22px;
+}
+
+.section-icon {
+    font-size: 16px;
+    color: #64748b;
+}
+
+.section-title h2 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.2px;
+}
+
+.vitals-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 32px;
+}
+
+.vital-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 72px;
+}
+
+.field-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+    font-family: 'Inter', sans-serif;
+}
+
+.input-wrap {
+    border: 1.5px solid #d1d5db;
+    border-radius: 8px;
+    background: white;
+    transition: border-color 0.18s ease, background 0.18s ease;
+    overflow: hidden;
+}
+
+.input-wrap input {
+    width: 100%;
+    padding: 10px 14px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    color: #111827;
+    background: transparent;
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+.input-wrap input::-webkit-outer-spin-button,
+.input-wrap input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.input-wrap input::placeholder {
+    color: #9ca3af;
+}
+
+.input-wrap:focus-within {
+    border-color: #6366f1;
+}
+
+.input-wrap.wrap-normal {
+    border-color: #10b981;
+}
+
+.input-wrap.wrap-normal:focus-within {
+    border-color: #059669;
+}
+
+.input-wrap.wrap-abnormal {
+    border-color: #f59e0b;
+    background: #fffbeb;
+}
+
+.input-wrap.wrap-abnormal input {
+    background: #fffbeb;
+}
+
+.input-wrap.wrap-abnormal:focus-within {
+    border-color: #d97706;
+}
+
+.bmi-wrap input {
+    color: #2563eb;
+    font-weight: 600;
+    cursor: default;
+}
+
+.status-ok {
+    margin: 0;
+    font-size: 12px;
+    color: #059669;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+}
+
+.status-warn {
+    margin: 0;
+    font-size: 12px;
+    color: #d97706;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+}
+
+.vital-legend {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    background: #f0fdf4;
+    border: 1px solid #a7f3d0;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #065f46;
+    margin-top: 20px;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+}
+
+.legend-icon {
+    color: #d97706;
+    flex-shrink: 0;
+    font-size: 13px;
+    margin-top: 1px;
+}

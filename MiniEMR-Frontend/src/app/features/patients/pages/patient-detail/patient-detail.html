@@ -1,0 +1,183 @@
+@if(patient()) {
+<div class="patient-detail-page">
+    <div class="patient-banner">
+        <div class="patient-banner-left">
+            <div class="patient-large-avatar">
+                {{ patient()?.fullName?.charAt(0) }}
+            </div>
+            <div>
+                <h1>{{ patient()?.fullName }}</h1>
+                <p>
+                    {{ patient()?.dateOfBirth | age }} yrs &bull; {{ patient()?.gender }}
+                    &bull; {{ patient()?.phoneNumber }}
+                    @if ((patient()?.visitHistory?.length ?? 0) > 0) {
+                        &bull; Last visit: {{ patient()!.visitHistory![0].appointmentDateTime | date:'dd MMM yyyy' }}
+                    } @else {
+                        &bull; No visits yet
+                    }
+                </p>
+            </div>
+        </div>
+        <div class="patient-actions">
+            <button mat-flat-button class="action-btn back" (click)="goBack()">
+                <mat-icon>arrow_back</mat-icon>
+                Back
+            </button>
+            <button mat-flat-button class="action-btn secondary" (click)="openEditDialog()">
+                <mat-icon>edit</mat-icon>
+                Edit Patient
+            </button>
+            <button mat-flat-button class="action-btn primary" (click)="bookAppointment()">
+                <mat-icon>event</mat-icon>
+                Book Appointment
+            </button>
+        </div>
+    </div>
+    <div class="detail-grid">
+        <mat-card class="info-card">
+            <h2>Patient Demographics</h2>
+            <div class="info-list">
+                <div class="info-item">
+                    <span class="label">Phone</span>
+                    <span>{{ patient()?.phoneNumber }}</span>
+                </div>
+@if (patient()?.cnic) {
+                <div class="info-item">
+                    <span class="label">CNIC</span>
+                    <span>{{ patient()?.cnic }}</span>
+                </div>
+                }
+                <div class="info-item">
+                    <span class="label">Date of Birth</span>
+                    <span>
+                        {{ patient()?.dateOfBirth | date:'dd MMM yyyy' }}
+                    </span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Address</span>
+                    <span>{{ patient()?.address }}</span>
+                </div>
+            </div>
+        </mat-card>
+        <mat-card class="history-card">
+            <div class="history-header">
+                <h2>Visit History</h2>
+                <span class="visit-count-badge">{{ patient()?.visitHistory?.length ?? 0 }}</span>
+            </div>
+            @if((patient()?.visitHistory?.length ?? 0) > 0) {
+            <div class="visit-history-list">
+                @for(item of patient()?.visitHistory; track item.visitId) {
+                @let bmiVal = item.vital ? (item.vital.bMI ?? (item.vital.weightKg | bmi: item.vital.heightCm)) : null;
+                <div class="visit-entry">
+
+                    <div class="visit-entry-header">
+                        <div class="visit-entry-meta">
+                            <span class="visit-date">{{ item.appointmentDateTime | date:'dd MMM yyyy' }}</span>
+                            <span class="visit-doctor">{{ item.doctorName }}</span>
+                        </div>
+                        <span class="visit-status-badge">Completed</span>
+                    </div>
+
+                    <div class="visit-entry-body">
+
+                        <div class="visit-clinical">
+                            @if(item.chiefComplaint) {
+                            <div class="visit-note-item">
+                                <span class="vnote-label">Chief Complaint</span>
+                                <span class="vnote-value">{{ item.chiefComplaint }}</span>
+                            </div>
+                            }
+                            @if(item.diagnosis) {
+                            <div class="visit-note-item">
+                                <span class="vnote-label">Diagnosis</span>
+                                <span class="vnote-value diagnosis-text">{{ item.diagnosis }}</span>
+                            </div>
+                            }
+                            @if(item.visitNote) {
+                            <div class="visit-note-item">
+                                <span class="vnote-label">Note</span>
+                                <span class="vnote-value visit-note-text">{{ item.visitNote }}</span>
+                            </div>
+                            }
+                        </div>
+
+                        <div class="visit-vitals-rx">
+                            @if(item.vital) {
+                            <div class="vitals-row">
+                                @if(item.vital.bPSystolic && item.vital.bPDiastolic) {
+                                <div class="vital-chip" [appVitalRange]="'bPSystolic'" [rangeValue]="item.vital.bPSystolic">
+                                    <span class="vchip-value">{{ item.vital.bPSystolic }}/{{ item.vital.bPDiastolic }}</span>
+                                    <span class="vchip-label">BP (mmHg)</span>
+                                </div>
+                                }
+                                @if(item.vital.pulseRate) {
+                                <div class="vital-chip" [appVitalRange]="'pulseRate'" [rangeValue]="item.vital.pulseRate">
+                                    <span class="vchip-value">{{ item.vital.pulseRate }}</span>
+                                    <span class="vchip-label">Pulse (bpm)</span>
+                                </div>
+                                }
+                                @if(item.vital.temperatureF) {
+                                <div class="vital-chip" [appVitalRange]="'temperatureF'" [rangeValue]="item.vital.temperatureF">
+                                    <span class="vchip-value">{{ item.vital.temperatureF }}°F</span>
+                                    <span class="vchip-label">Temp</span>
+                                </div>
+                                }
+                                @if(item.vital.respiratoryRate) {
+                                <div class="vital-chip" [appVitalRange]="'respiratoryRate'" [rangeValue]="item.vital.respiratoryRate">
+                                    <span class="vchip-value">{{ item.vital.respiratoryRate }} /min</span>
+                                    <span class="vchip-label">Resp. Rate</span>
+                                </div>
+                                }
+                                @if(item.vital.heightCm) {
+                                <div class="vital-chip">
+                                    <span class="vchip-value">{{ item.vital.heightCm }} cm</span>
+                                    <span class="vchip-label">Height</span>
+                                </div>
+                                }
+                                @if(item.vital.weightKg) {
+                                <div class="vital-chip">
+                                    <span class="vchip-value">{{ item.vital.weightKg }} kg</span>
+                                    <span class="vchip-label">Weight</span>
+                                </div>
+                                }
+                                @if(bmiVal) {
+                                <div class="vital-chip" [appVitalRange]="'bMI'" [rangeValue]="bmiVal">
+                                    <span class="vchip-value">{{ bmiVal }}</span>
+                                    <span class="vchip-label">BMI</span>
+                                </div>
+                                }
+                            </div>
+                            }
+                            @if(item.prescribedMedicines && item.prescribedMedicines.length > 0) {
+                            <div class="rx-section">
+                                <span class="rx-heading">Prescriptions</span>
+                                <div class="rx-list">
+                                    @for(med of item.prescribedMedicines; track med.medicineId) {
+                                    <div class="rx-row">
+                                        <span class="rx-pill"></span>
+                                        <span class="rx-name">{{ med.medicineName }}</span>
+                                        <span class="rx-detail">{{ med.dosage }} &mdash; {{ med.frequencyText }} &mdash; {{ med.duration }}</span>
+                                        @if(med.instructions) {
+                                        <span class="rx-instructions">({{ med.instructions }})</span>
+                                        }
+                                    </div>
+                                    }
+                                </div>
+                            </div>
+                            }
+                        </div>
+
+                    </div>
+                </div>
+                }
+            </div>
+            } @else {
+            <div class="empty-state">
+                <mat-icon>medical_information</mat-icon>
+                <p>No clinical visits available.</p>
+            </div>
+            }
+        </mat-card>
+    </div>
+</div>
+}

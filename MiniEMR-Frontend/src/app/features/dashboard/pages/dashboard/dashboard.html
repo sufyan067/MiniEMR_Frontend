@@ -1,0 +1,238 @@
+<div class="dashboard-page">
+    @if(summary()) {
+    <div class="summary-grid">
+        <div class="summary-card total">
+            <div class="card-top">
+                <div class="card-icon">
+                    <mat-icon>calendar_month</mat-icon>
+                </div>
+            </div>
+            <div class="card-title"> Total Appointments
+            </div>
+            <div class="card-value">
+                {{ summary()?.totalAppointments }}
+            </div>
+        </div>
+        <div class="summary-card checkedin">
+            <div class="card-top">
+                <div class="card-icon">
+                    <mat-icon>how_to_reg</mat-icon>
+                </div>
+            </div>
+            <div class="card-title">
+                Checked-In
+            </div>
+            <div class="card-value">
+                {{ summary()?.checkedIn }}
+            </div>
+        </div>
+        <div class="summary-card completed">
+            <div class="card-top">
+                <div class="card-icon">
+                    <mat-icon>task_alt</mat-icon>
+                </div>
+            </div>
+            <div class="card-title">
+                Completed
+            </div>
+            <div class="card-value">
+                {{ summary()?.completed }}
+            </div>
+        </div>
+        <div class="summary-card booked">
+            <div class="card-top">
+                <div class="card-icon">
+                    <mat-icon>event_available</mat-icon>
+                </div>
+            </div>
+            <div class="card-title">
+                Booked
+            </div>
+            <div class="card-value">
+                {{ summary()?.booked }}
+            </div>
+        </div>
+    </div>
+    }
+    @if(isDoctor()) {
+    <div class="today-appt-card">
+        <div class="today-appt-header">
+            <div class="today-appt-title">
+                <mat-icon>today</mat-icon>
+                <h2>My Today's Appointments</h2>
+            </div>
+            <span class="today-count-badge">{{ todayDoctorAppointments().length }}</span>
+        </div>
+
+        @if(todayDoctorAppointments().length === 0) {
+            <div class="today-empty">
+                <mat-icon>event_busy</mat-icon>
+                <p>No appointments scheduled for today.</p>
+            </div>
+        } @else {
+            <div class="today-appt-list">
+                @for(item of todayDoctorAppointments(); track item.appointmentId) {
+                <div class="today-appt-row">
+                    <div class="today-patient-info">
+                        <div class="today-avatar">{{ item.patientName.charAt(0) }}</div>
+                        <div>
+                            <div class="today-patient-name">{{ item.patientName }}</div>
+                            <div class="today-patient-meta">{{ item.age }} yrs, {{ item.gender }}</div>
+                        </div>
+                    </div>
+                    <div class="today-time">
+                        <mat-icon>schedule</mat-icon>
+                        {{ item.appointmentDateTime | date:'hh:mm a' }}
+                    </div>
+                    <span class="status-chip"
+                        [class.booked]="item.statusText === 'Booked'"
+                        [class.checkedin]="item.statusText === 'CheckedIn'"
+                        [class.completed]="item.statusText === 'Completed'"
+                        [class.cancelled]="item.statusText === 'Cancelled'">
+                        {{ item.statusText }}
+                    </span>
+                    <div class="today-action">
+                        @if(item.statusText === 'CheckedIn') {
+                        <button mat-raised-button color="primary" class="start-visit-btn"
+                            (click)="startVisit(item.appointmentId)">
+                            <mat-icon>play_arrow</mat-icon>
+                            Start Visit
+                        </button>
+                        <button mat-raised-button class="today-cancel-btn"
+                            (click)="cancel(item.appointmentId)">
+                            <mat-icon>cancel</mat-icon>
+                            Cancel
+                        </button>
+                        }
+                        @if(item.statusText === 'Booked') {
+                        <button mat-raised-button class="today-checkin-btn"
+                            (click)="checkIn(item.appointmentId)">
+                            <mat-icon>how_to_reg</mat-icon>
+                            Check-In
+                        </button>
+                        <button mat-raised-button class="today-cancel-btn"
+                            (click)="cancel(item.appointmentId)">
+                            <mat-icon>cancel</mat-icon>
+                            Cancel
+                        </button>
+                        }
+                        @if(item.statusText === 'Completed') {
+                        <span class="done-label">
+                            <mat-icon>check_circle</mat-icon> Done
+                        </span>
+                        }
+                    </div>
+                </div>
+                }
+            </div>
+        }
+    </div>
+    }
+
+    <div class="filters-section">
+        <mat-form-field appearance="outline">
+            <mat-label>Date</mat-label>
+            <input matInput [matDatepicker]="picker" (dateChange)="onDateChange($event)">
+            <mat-datepicker-toggle matIconSuffix [for]="picker">
+            </mat-datepicker-toggle>
+            <mat-datepicker #picker />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select (selectionChange)="onStatusChange($event.value)">
+                <mat-option value="All">
+                    All
+                </mat-option>
+                <mat-option value="Booked">
+                    Booked
+                </mat-option>
+                <mat-option value="CheckedIn">
+                    Checked-In
+                </mat-option>
+                <mat-option value="Completed">
+                    Completed
+                </mat-option>
+                <mat-option value="Cancelled">
+                    Cancelled
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="appointments-section">
+        <div class="section-header">
+            <h2>Recent Appointments</h2>
+        </div>
+        <div class="appointments-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Patient</th>
+                        <th>Age/Gender</th>
+                        <th>Doctor</th>
+                        <th>Appointment Time</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(item of appointments(); track item.appointmentId) {
+                    <tr>
+                        <td>{{ item.patientName }}</td>
+                        <td>
+                            {{ item.age }}/{{ item.gender }}
+                        </td>
+                        <td>{{ item.doctorName }}</td>
+                        <td>{{ item.appointmentDateTime | date:'dd MMM yyyy - hh:mm a' }}</td>
+                        <td>
+                            <span class="status-chip" [class.booked]="item.statusText === 'Booked'"
+                                [class.checkedin]="item.statusText === 'CheckedIn'"
+                                [class.completed]="item.statusText === 'Completed'"
+                                [class.cancelled]="item.statusText === 'Cancelled'">
+                                {{ item.statusText }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="actions">
+                                @if (item.statusText === 'Booked') {
+                                    @if (canCheckIn(item)) {
+                                        <button mat-flat-button class="action-btn checkin"
+                                            (click)="checkIn(item.appointmentId)">
+                                            Check-In
+                                        </button>
+                                    }
+                                    @if (canCancel(item)) {
+                                        <button mat-flat-button class="action-btn cancel"
+                                            (click)="cancel(item.appointmentId)">
+                                            Cancel
+                                        </button>
+                                    }
+                                }
+                                @if (item.statusText === 'CheckedIn') {
+                                    @if (canStartVisit(item)) {
+                                        <button mat-flat-button class="action-btn visit"
+                                            (click)="startVisit(item.appointmentId)">
+                                            Start Visit
+                                        </button>
+                                    }
+                                    @if (canCancel(item)) {
+                                        <button mat-flat-button class="action-btn cancel"
+                                            (click)="cancel(item.appointmentId)">
+                                            Cancel
+                                        </button>
+                                    }
+                                }
+                                @if (item.statusText === 'Completed') {
+                                    <button mat-flat-button class="action-btn completed"
+                                        (click)="viewVisit(item.appointmentId)">
+                                        View Visit
+                                    </button>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

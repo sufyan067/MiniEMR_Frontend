@@ -1,0 +1,130 @@
+<div class="vitals-section">
+
+    <div class="section-title">
+        <span class="section-icon">&#9829;</span>
+        <h2>Vitals</h2>
+    </div>
+
+    <div class="vitals-grid" [formGroup]="form">
+
+        <div class="vital-field">
+            <label class="field-label">Height (cm)</label>
+            <div class="input-wrap">
+                <input type="number" formControlName="heightCm" placeholder="e.g. 170">
+            </div>
+        </div>
+
+        <div class="vital-field">
+            <label class="field-label">Weight (kg)</label>
+            <div class="input-wrap">
+                <input type="number" formControlName="weightKg" placeholder="e.g. 70">
+            </div>
+        </div>
+
+        <div class="vital-field">
+            <label class="field-label">BMI (auto-calculated)</label>
+            <div class="input-wrap bmi-wrap"
+                 [appVitalRange]="'bMI'"
+                 [rangeValue]="form.get('weightKg')?.value | bmi: form.get('heightCm')?.value">
+                <input type="number" formControlName="bMI" placeholder="Auto-calculated" readonly>
+            </div>
+            @if ((form.get('weightKg')?.value | bmi: form.get('heightCm')?.value) !== null) {
+                @let bmiVal = (form.get('weightKg')?.value | bmi: form.get('heightCm')?.value)!;
+                @if (bmiVal >= 18.5 && bmiVal <= 24.9) {
+                    <p class="status-ok">&#10003; Normal</p>
+                } @else {
+                    <p class="status-warn">&#9651; Abnormal (normal: {{ rangeLabel('bMI') }})</p>
+                }
+            }
+        </div>
+
+        <div class="vital-field">
+            <label class="field-label">Temperature (°F)</label>
+            <div class="input-wrap"
+                 [appVitalRange]="'temperatureF'"
+                 [rangeValue]="form.get('temperatureF')?.value">
+                <input type="number" formControlName="temperatureF" placeholder="e.g. 98.6">
+            </div>
+            @if (form.get('temperatureF')?.value !== null) {
+                @if (form.get('temperatureF')!.value! >= 97 && form.get('temperatureF')!.value! <= 99) {
+                    <p class="status-ok">&#10003; Normal</p>
+                } @else {
+                    <p class="status-warn">&#9651; Abnormal (normal: {{ rangeLabel('temperatureF') }})</p>
+                }
+            }
+        </div>
+
+        <div class="vital-field">
+            <label class="field-label">BP Systolic (mmHg)</label>
+            <div class="input-wrap"
+                 [appVitalRange]="'bPSystolic'"
+                 [rangeValue]="form.get('bPSystolic')?.value">
+                <input type="number" formControlName="bPSystolic" placeholder="e.g. 120">
+            </div>
+            @if (form.get('bPSystolic')?.value !== null) {
+                @if (form.get('bPSystolic')!.value! >= 90 && form.get('bPSystolic')!.value! <= 140) {
+                    <p class="status-ok">&#10003; Normal</p>
+                } @else {
+                    <p class="status-warn">&#9651; Abnormal (normal: {{ rangeLabel('bPSystolic') }})</p>
+                }
+            }
+        </div>
+
+        <div class="vital-field">
+            <label class="field-label">BP Diastolic (mmHg)</label>
+            <div class="input-wrap"
+                 [appVitalRange]="'bPDiastolic'"
+                 [rangeValue]="form.get('bPDiastolic')?.value">
+                <input type="number" formControlName="bPDiastolic" placeholder="e.g. 80">
+            </div>
+            @if (form.get('bPDiastolic')?.value !== null) {
+                @if (form.get('bPDiastolic')!.value! >= 60 && form.get('bPDiastolic')!.value! <= 90) {
+                    <p class="status-ok">&#10003; Normal</p>
+                } @else {
+                    <p class="status-warn">&#9651; Abnormal (normal: {{ rangeLabel('bPDiastolic') }})</p>
+                }
+            }
+        </div>
+
+        <div class="vital-field">
+            <label class="field-label">Pulse (bpm)</label>
+            <div class="input-wrap"
+                 [appVitalRange]="'pulseRate'"
+                 [rangeValue]="form.get('pulseRate')?.value">
+                <input type="number" formControlName="pulseRate" placeholder="e.g. 72">
+            </div>
+            @if (form.get('pulseRate')?.value !== null) {
+                @if (form.get('pulseRate')!.value! >= 60 && form.get('pulseRate')!.value! <= 100) {
+                    <p class="status-ok">&#10003; Normal</p>
+                } @else {
+                    <p class="status-warn">&#9651; Abnormal (normal: {{ rangeLabel('pulseRate') }})</p>
+                }
+            }
+        </div>
+
+        <div class="vital-field">
+            <label class="field-label">Respiratory Rate (/min)</label>
+            <div class="input-wrap"
+                 [appVitalRange]="'respiratoryRate'"
+                 [rangeValue]="form.get('respiratoryRate')?.value">
+                <input type="number" formControlName="respiratoryRate" placeholder="e.g. 16">
+            </div>
+            @if (form.get('respiratoryRate')?.value !== null) {
+                @if (form.get('respiratoryRate')!.value! >= 12 && form.get('respiratoryRate')!.value! <= 20) {
+                    <p class="status-ok">&#10003; Normal</p>
+                } @else {
+                    <p class="status-warn">&#9651; Abnormal (normal: {{ rangeLabel('respiratoryRate') }})</p>
+                }
+            }
+        </div>
+
+    </div>
+
+    <div class="vital-legend">
+        <span class="legend-icon">&#9651;</span>
+        <span>Fields highlighted in orange = outside normal range.&nbsp;
+            Normal: BP 90–140 / 60–90 &nbsp;&middot;&nbsp; Pulse 60–100 &nbsp;&middot;&nbsp; Temp 97–99°F &nbsp;&middot;&nbsp; RR 12–20
+        </span>
+    </div>
+
+</div>

@@ -1,0 +1,83 @@
+<mat-sidenav-container class="layout-container">
+    <mat-sidenav mode="side" opened class="sidebar">
+        <div class="sidebar-wrapper">
+            <div class="logo-section">
+                <div class="brand">
+                    <div class="brand-icon">
+                        <mat-icon>health_and_safety</mat-icon>
+                    </div>
+                    <div>
+                        <h2>CureEMR</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar-content">
+                <mat-nav-list class="nav-list">
+                    <a mat-list-item routerLink="/dashboard" routerLinkActive="active-nav">
+                        <div class="nav-item">
+                            <mat-icon>dashboard</mat-icon>
+                            <span>Dashboard</span>
+                        </div>
+                    </a>
+                    <a mat-list-item routerLink="/patients" routerLinkActive="active-nav">
+                        <div class="nav-item">
+                            <mat-icon>people</mat-icon>
+                            <span>Patients</span>
+                        </div>
+                    </a>
+                    <a mat-list-item routerLink="/appointments" routerLinkActive="active-nav">
+                        <div class="nav-item">
+                            <mat-icon>event_note</mat-icon>
+                            <span>Appointments</span>
+                        </div>
+                    </a>
+                    @if (canBookAppointment()) {
+                    <button mat-list-item class="nav-book-btn" (click)="openBookDialog()">
+                        <div class="nav-item">
+                            <mat-icon>add_circle_outline</mat-icon>
+                            <span>Book Appointment</span>
+                        </div>
+                    </button>
+                    }
+                </mat-nav-list>
+            </div>
+            <div class="sidebar-footer">
+                <button class="logout-btn" (click)="logout()">
+                    <mat-icon>logout</mat-icon>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </div>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar class="topbar">
+            <div class="topbar-welcome">
+                <span class="welcome-text">Welcome back,</span>
+                <span class="welcome-name">{{ authState.currentUser()?.fullName }}</span>
+            </div>
+            <span class="spacer"></span>
+            @if(canBookAppointment()) {
+            <button mat-raised-button color="primary" class="book-appt-btn" (click)="openBookDialog()">
+                <mat-icon>add</mat-icon>
+                Book Appointment
+            </button>
+            }
+            <div class="user-profile">
+                <div class="user-avatar">
+                    {{ authState.currentUser()?.fullName?.charAt(0) }}
+                </div>
+                <div class="user-info">
+                    <div class="user-name">
+                        {{ authState.currentUser()?.fullName }}
+                    </div>
+                    <div class="user-role">
+                        {{ authState.currentUser()?.role }}
+                    </div>
+                </div>
+            </div>
+        </mat-toolbar>
+        <div class="content-area">
+            <router-outlet />
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

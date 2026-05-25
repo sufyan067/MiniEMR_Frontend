@@ -1,0 +1,33 @@
+<div class="notes-section">
+
+    <div class="section-title">
+        <span class="section-icon">&#128196;</span>
+        <h2>Clinical Notes</h2>
+    </div>
+
+    <div class="notes-grid" [formGroup]="form">
+
+        <div class="note-field">
+            <label class="field-label">Chief Complaint</label>
+            <div class="input-wrap">
+                <input formControlName="chiefComplaint" placeholder="e.g. Fever, headache since 2 days">
+            </div>
+        </div>
+
+        <div class="note-field">
+            <label class="field-label">Diagnosis</label>
+            <div class="input-wrap">
+                <input formControlName="diagnosis" placeholder="e.g. Upper respiratory infection">
+            </div>
+        </div>
+
+        <div class="note-field full-row">
+            <label class="field-label">Visit Note</label>
+            <div class="input-wrap">
+                <textarea formControlName="visitNote" rows="5" placeholder="Detailed clinical observations, findings and plan..."></textarea>
+            </div>
+        </div>
+
+    </div>
+
+</div>

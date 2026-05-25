@@ -1,0 +1,86 @@
+<div class="prescription-section">
+
+    <div class="section-title">
+        <span class="section-icon">&#128138;</span>
+        <h2>Prescription</h2>
+        <button mat-flat-button class="add-btn" (click)="addMedicine()">
+            <mat-icon>add</mat-icon>
+            Add Medicine
+        </button>
+    </div>
+
+    <form [formGroup]="prescriptionsForm">
+        <div formArrayName="medicines">
+            @for (item of medicinesArray.controls; track $index) {
+                <div class="medicine-card" [formGroupName]="$index">
+
+                    <div class="medicine-grid">
+
+                        <div class="rx-field">
+                            <label class="field-label">Medicine</label>
+                            <div class="input-wrap">
+                                <select formControlName="medicineId">
+                                    <option [value]="0" disabled>Select medicine</option>
+                                    @for (medicine of medicines(); track medicine.medicineId) {
+                                        <option [value]="medicine.medicineId">{{ medicine.displayText }}</option>
+                                    }
+                                </select>
+                            </div>
+                            @if (item.get('medicineId')?.touched && item.get('medicineId')?.hasError('required')) {
+                                <span class="field-error">Select a medicine</span>
+                            }
+                        </div>
+
+                        <div class="rx-field">
+                            <label class="field-label">Dosage</label>
+                            <div class="input-wrap">
+                                <input formControlName="dosage" placeholder="e.g. 500mg, 1 tablet">
+                            </div>
+                            @if (item.get('dosage')?.touched && item.get('dosage')?.hasError('required')) {
+                                <span class="field-error">Dosage is required</span>
+                            }
+                        </div>
+
+                        <div class="rx-field">
+                            <label class="field-label">Frequency</label>
+                            <div class="input-wrap">
+                                <select formControlName="frequency">
+                                    <option [value]="1">Once Daily</option>
+                                    <option [value]="2">Twice Daily</option>
+                                    <option [value]="3">Thrice Daily</option>
+                                    <option [value]="4">Four Times Daily</option>
+                                    <option [value]="5">As Needed</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="rx-field">
+                            <label class="field-label">Duration</label>
+                            <div class="input-wrap">
+                                <input formControlName="duration" placeholder="e.g. 5 days, 2 weeks">
+                            </div>
+                            @if (item.get('duration')?.touched && item.get('duration')?.hasError('required')) {
+                                <span class="field-error">Duration is required</span>
+                            }
+                        </div>
+
+                        <div class="rx-field full-row">
+                            <label class="field-label">Instructions <span class="optional">(optional)</span></label>
+                            <div class="input-wrap">
+                                <input formControlName="instructions" placeholder="e.g. Take after meals, avoid dairy">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <button mat-icon-button class="remove-btn" (click)="removeMedicine($index)"
+                        matTooltip="Remove">
+                        <mat-icon>delete_outline</mat-icon>
+                    </button>
+
+                </div>
+            }
+        </div>
+    </form>
+
+</div>

@@ -1,0 +1,186 @@
+.appointment-page {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 24px;
+}
+
+.page-header h1 {
+
+    margin: 0;
+
+    font-size: 34px;
+
+    font-weight: 700;
+
+    color: #0f172a;
+}
+
+.page-header p {
+
+    margin-top: 8px;
+
+    color: #64748b;
+}
+
+.top-filters {
+
+    display: flex;
+
+    gap: 18px;
+}
+
+mat-form-field {
+
+    width: 320px;
+}
+
+.appointment-card {
+
+    border-radius: 24px;
+
+    padding: 24px;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+th {
+
+    text-align: left;
+
+    padding-bottom: 18px;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+td {
+
+    padding: 18px 0;
+
+    border-top: 1px solid #f1f5f9;
+}
+
+tbody tr:hover {
+
+    background: #f8fafc;
+}
+
+.patient-cell {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+}
+
+.avatar {
+
+    width: 42px;
+
+    height: 42px;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(135deg, #2563eb, #06b6d4);
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    color: white;
+
+    font-weight: 700;
+}
+
+.status-chip {
+
+    padding: 6px 14px;
+
+    border-radius: 999px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+.status-chip.booked {
+
+    background: #dbeafe;
+
+    color: #2563eb;
+}
+
+.status-chip.checkedin {
+
+    background: #ccfbf1;
+
+    color: #0f766e;
+}
+
+.status-chip.completed {
+
+    background: #ede9fe;
+
+    color: #6d28d9;
+}
+
+.status-chip.cancelled {
+
+    background: #fee2e2;
+
+    color: #dc2626;
+}
+
+.actions {
+
+    display: flex;
+
+    gap: 10px;
+}
+
+.action-btn {
+
+    border-radius: 12px;
+
+    font-weight: 600;
+}
+
+.action-btn.checkin {
+
+    background: #ccfbf1;
+
+    color: #0f766e;
+}
+
+.action-btn.cancel {
+
+    background: #fee2e2;
+
+    color: #dc2626;
+}
+
+.action-btn.visit {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.action-btn.view-visit {
+    background: #ede9fe;
+    color: #6d28d9;
+}
